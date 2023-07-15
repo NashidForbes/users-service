@@ -21,8 +21,8 @@ public class UserEventsHandler {
                 .build();
 
         User userRest = User.builder()
-                .firstName("Sergey")
-                .lastName("Kargopolov")
+                .firstName("Nash")
+                .lastName("Forbes")
                 .foodCartId(query.getFoodCartId())
                 .paymentDetails(paymentDetails)
                 .build();
