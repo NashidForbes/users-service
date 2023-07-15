@@ -4,10 +4,12 @@ import io.axoniq.core.model.PaymentDetails;
 import io.axoniq.core.model.User;
 import io.axoniq.core.query.FetchUserPaymentDetailsQuery;
 import org.springframework.stereotype.Component;
+import org.axonframework.queryhandling.QueryHandler;
 
 @Component
 public class UserEventsHandler {
 
+    @QueryHandler
     public User getUserPaymentDetails(FetchUserPaymentDetailsQuery query){
 
         PaymentDetails paymentDetails = PaymentDetails.builder()

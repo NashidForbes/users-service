@@ -19,13 +19,21 @@ configurations {
     }
 }
 
+extra["springCloudVersion"] = "2022.0.3"
+
 repositories {
     mavenCentral()
+    mavenLocal()
+    maven {
+        url = uri("https://repo.maven.apache.org/maven2/")
+    }
 }
 
 dependencies {
+    implementation("org.axonframework:axon-spring-boot-starter:4.7.0")
     implementation("org.springframework.boot:spring-boot-starter-web")
     compileOnly("org.projectlombok:lombok")
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.1.0")
     implementation("org.axonframework.extensions.kotlin:axon-kotlin:4.7.0")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     runtimeOnly("com.h2database:h2")
@@ -33,6 +41,12 @@ dependencies {
     implementation(project(":core"))
     testImplementation("org.axonframework:axon-test:4.6.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+    }
 }
 
 tasks.withType<Test> {
