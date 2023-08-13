@@ -1,0 +1,110 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: users-service-postgres
+  namespace: dev
+spec:
+  serviceName: users-service-postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users-service-postgres
+  template:
+    metadata:
+      labels:
+        app: users-service-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:latest
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: users
+            - name: POSTGRES_USER
+              value: root
+            - name: POSTGRES_PASSWORD
+              value: password
+          volumeMounts:
+            - name: usersservice-postgres-data
+              mountPath: /home/nash/food-order-databases/users-service-db/data
+      volumes:
+        - name: usersservice-postgres-data
+          persistentVolumeClaim:
+            claimName: usersservice-postgres-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: usersservice-postgres-pvc
+  namespace: dev
+spec:
+  accessModes:
+    - ReadWriteOnce # ReadWriteOnce, the once means one node only can readwrite to volume
+  resources:
+    requests:
+      storage: 1Gi  # Adjust the storage size as needed
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service-postgres
+  labels:
+    app: users-service-postgres
+  namespace: dev
+spec:
+  ports:
+    - name: gateway-port
+      port: 5432
+      targetPort: 5432
+  type: ClusterIP
+  selector:
+    app: users-service-postgres
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-service-springboot
+  labels:
+    app: users-service-springboot
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users-service-springboot
+  template:
+    metadata:
+      labels:
+        app: users-service-springboot
+    spec:
+      containers:
+      - name: users-service-springboot
+        image: 192.168.20.222:8443/digitalbiohumans/poc/users-service-springboot:0.0.2-SNAPSHOT
+        imagePullPolicy: Always
+        ports:
+        - name: port-tcp
+          containerPort: 8080
+          protocol: TCP
+        - name: port-udp
+          containerPort: 8080
+          protocol: UDP
+          #TODO: Implement health checks
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service-springboot
+  labels:
+    app: users-service-springboot
+  namespace: dev
+spec:
+  ports:
+  - name: gateway-port
+    port: 8080
+    targetPort: 8080
+  type: ClusterIP
+  selector:
+    app: users-service-springboot
+---

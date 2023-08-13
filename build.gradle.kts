@@ -36,6 +36,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.1.0")
     implementation("org.axonframework.extensions.kotlin:axon-kotlin:4.7.0")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    implementation("org.postgresql:postgresql:42.6.0")
     runtimeOnly("com.h2database:h2")
     annotationProcessor("org.projectlombok:lombok")
     implementation(project(":core"))
