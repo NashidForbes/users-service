@@ -83,6 +83,9 @@ spec:
       - name: users-service-springboot
         image: 192.168.20.222:8443/digitalbiohumans/poc/users-service-springboot:0.0.2-SNAPSHOT
         imagePullPolicy: Always
+        env:
+          - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+            value: 'true'
         ports:
         - name: port-tcp
           containerPort: 8080
