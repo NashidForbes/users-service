@@ -38,6 +38,7 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     implementation("org.springframework.cloud:spring-cloud-starter-config:3.1.0")
     implementation("org.springframework.cloud:spring-cloud-starter-bootstrap:3.1.0")
+    implementation("net.logstash.logback:logstash-logback-encoder:7.4")
     implementation("org.postgresql:postgresql:42.6.0")
     runtimeOnly("com.h2database:h2")
     annotationProcessor("org.projectlombok:lombok")
