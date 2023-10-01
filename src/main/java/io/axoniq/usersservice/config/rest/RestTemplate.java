@@ -1,4 +1,4 @@
-package io.axoniq.usersservice.query.rest;
+package io.axoniq.usersservice.config.rest;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
