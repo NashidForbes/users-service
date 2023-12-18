@@ -28,7 +28,7 @@ spec:
               value: password
           volumeMounts:
             - name: usersservice-postgres-data
-              mountPath: /home/nash/food-order-databases/users-service-db/data
+              mountPath: /home/${USER}/food-order-databases/users-service-db/data
       volumes:
         - name: usersservice-postgres-data
           persistentVolumeClaim:
